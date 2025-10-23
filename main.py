@@ -7,23 +7,22 @@ def Search(fileName, searchBy, searchKey):
     found = False
     with open(file_name, "r") as file:
         database = file.read().strip()
-        records = database.split("\n\n")
-
-        for line in records:
-            data = line.strip().split("\n")
-             # ID
-            if searchBy == '1':
-                if int(data[0]) == searchKey:
+        records = database.split("\n")
+        # ID
+        if searchBy == '1':
+            for i in range(len(records)):
+                if records[i] == f"{int(searchKey):04d}":
                     print(separator)
-                    print(f"ID: {data[0]}")
-                    print(f"Name: {data[1]}")
+                    print(f"ID: {records[i]}")
+                    print(f"Name: {records[i+1]}")
                     found = True
-             # Name
-            elif searchBy == '2':
-                if searchKey.lower() in data[1].lower():
+        # Name
+        elif searchBy == '2':
+            for i in range(len(records)):
+                if records[i].lower() == searchKey.lower():
                     print(separator)
-                    print(f"ID: {data[0]}")
-                    print(f"Name: {data[1]}")
+                    print(f"ID: {records[i-1]}")
+                    print(f"Name: {records[i]}")
                     found = True
 
     if not found:
@@ -47,7 +46,7 @@ def Add(name):
 
     with open(file_name, "a") as file:
         file.write(separator + "\n")
-        file.write(f"{latest_id:04d}\n")
+        file.write(f"{latest_id}\n")
         file.write(name + "\n")
         
 
