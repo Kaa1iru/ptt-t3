@@ -3,7 +3,7 @@ import os
 file_name = "database.txt"
 separator = "=========================="
 
-def Search(filename, searchBy, searchKey):
+def Search(fileName, searchBy, searchKey):
     found = False
     with open(file_name, "r") as file:
         database = file.read().strip()
@@ -70,7 +70,7 @@ def main():
                 # Name
                 elif searchBy == '2':
                     searchName = input("Enter name: ")
-                    if searchName == '':
+                    if searchName.strip() == '':
                         print("Name should not be empty...")
                     else:
                         Search(file_name, searchBy, searchName)
