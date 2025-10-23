@@ -25,15 +25,50 @@ def Search(fileName, searchBy, searchKey):
                     print(f"ID: {data[0]}")
                     print(f"Name: {data[1]}")
                     found = True
-                    
+
     if not found:
         print("Record does not exist.")
 
 def Add():
     pass
 
-def Edit():
-    pass
+def Update():
+    print(separator)
+    try:
+        updateID =  int(input("Enter ID of record to update: "))
+    except:
+        print("Invalid Input!")
+        return
+
+    with open(file_name, "r") as file:
+        database = file.read().strip()
+        if not database:
+            print("No Records Found")
+            return
+        records = database.split("\n\n")
+
+    found = False
+    updated_records = []
+
+    for record in records:
+        data = record.strip().split("\n")
+        if int(data[0]) == updateID:
+            print(f"Current Name: {data[1]}")
+            new_name = input("Enter New Name: ").strip()
+            if new_name == '':
+                new_name = data[1].strip()
+            updated_records.append(f"{data[0]}\n{new_name}")
+            found = True
+        else:
+            updated_records.append(record.strip())
+
+    if found:
+        with open(file_name, "w") as file:
+            file.write("\n\n".join(updated_records))
+        print("Recored Update Sucessfully")
+    else:
+        print("Record does not exit")
+
 
 def Delete():
     pass
@@ -56,7 +91,7 @@ def main():
             case '1':
                 pass
 
-            case '2':                
+            case '2':
                 searchBy = input("Search by: [1] ID or [2] Name: ")
                 # ID
                 if searchBy == '1':
@@ -66,7 +101,7 @@ def main():
                             break
                         except: print("Invalid input, try again...")
                     Search(file_name, searchBy, searchID)
-                    
+
                 # Name
                 elif searchBy == '2':
                     searchName = input("Enter name: ")
@@ -74,20 +109,21 @@ def main():
                         print("Name should not be empty...")
                     else:
                         Search(file_name, searchBy, searchName)
-                
+
                 else:
                     print("Invalid input, try again...")
-                    
+
             case '3':
+                Update()
                 pass
-            
+
             case '4':
                 pass
-            
+
             case '5':
                 print("Goodbye!")
                 break
-            
+
             case _:
                 print("Invalid input, try again...")
 
