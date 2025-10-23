@@ -35,8 +35,32 @@ def Add():
 def Edit():
     pass
 
-def Delete():
-    pass
+def Delete(id):
+    records = []
+    with open(file_name, "r") as file:
+        lines = file.readlines()
+        for i in lines:
+            records.append(i.strip())
+
+    temp = []
+    found = False
+    for i in range(len(records) - 2):
+        if records[i] == separator:
+            if records[i + 1] != id:
+                temp.append(separator)
+                temp.append(records[i + 1])
+                temp.append(records[i + 2])
+            else:
+                found = True
+
+    with open(file_name, "w") as file:
+        for line in temp:
+            file.write(line + "\n")
+
+    if found:
+        print(f"Record with ID {id} deleted successfully.")
+    else:
+        print(f"Record with ID {id} not found.")
 
 def main():
     if not os.path.exists(file_name):
@@ -82,7 +106,8 @@ def main():
                 pass
             
             case '4':
-                pass
+                delete_id = input("Enter ID: ")
+                Delete(delete_id)
             
             case '5':
                 print("Goodbye!")
