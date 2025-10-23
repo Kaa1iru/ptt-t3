@@ -1,7 +1,7 @@
 import os
 
 file_name = "database.txt"
-separator = "=========================="
+separator = "=  ========================="
 
 def Search(fileName, searchBy, searchKey):
     found = False
@@ -133,6 +133,9 @@ def main():
         match choice:
             case '1':
                 name = input("Enter Name: ")
+                if (name == ''):
+                    print("Error. Name cannot be empty.")
+                    continue
                 Add(name)
                 print(f"{name} successfully added!")
 
