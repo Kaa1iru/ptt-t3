@@ -1,7 +1,7 @@
 import os
 
 file_name = "database.txt"
-separator = "=  ========================="
+separator = "=========================="
 
 def Search(fileName, searchBy, searchKey):
     found = False
