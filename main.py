@@ -29,8 +29,27 @@ def Search(fileName, searchBy, searchKey):
     if not found:
         print("Record does not exist.")
 
-def Add():
-    pass
+def Add(name):
+    records = []
+    with open(file_name, "r") as file:
+        lines = file.readlines()
+        for i in lines:
+            records.append(i.strip())
+
+    latest_id = 0
+
+    for i in range(len(records) - 2):
+        if records[i] == separator:
+            if int(records[i + 1]) > latest_id:
+                latest_id = int(records[i + 1])
+
+    latest_id += 1
+
+    with open(file_name, "a") as file:
+        file.write(separator + "\n")
+        file.write(f"{latest_id:04d}\n")
+        file.write(name + "\n")
+        
 
 def Update():
     print(separator)
@@ -113,7 +132,9 @@ def main():
 
         match choice:
             case '1':
-                pass
+                name = input("Enter Name: ")
+                Add(name)
+                print(f"{name} successfully added!")
 
             case '2':
                 searchBy = input("Search by: [1] ID or [2] Name: ")
