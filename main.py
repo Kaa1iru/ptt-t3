@@ -47,10 +47,27 @@ def Update():
             return
         records = database.split("\n\n")
 
-        
-
     found = False
     updated_records = []
+
+    for record in records:
+        data = record.strip().split("\n")
+        if int(data[0]) == updateID:
+            print(f"Current Name: {data[1]}")
+            new_name = input("Enter New Name: ").strip()
+            if new_name == '':
+                new_name = data[1].strip()
+            updated_records.append(f"{data[0]}\n{new_name}")
+            found = True
+        else:
+            updated_records.append(record.strip())
+
+    if found:
+        with open(file_name, "w") as file:
+            file.write("\n\n".join(updated_records))
+        print("Recored Update Sucessfully")
+    else:
+        print("Record does not exit")
 
 
 def Delete():
