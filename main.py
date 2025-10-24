@@ -86,7 +86,6 @@ def Update():
     else:
         print("Record does not exist.")
 
-
 def Delete(id):
     records = []
     with open(file_name, "r") as file:
@@ -136,8 +135,11 @@ def main():
                 if (name == ''):
                     print("Error: Name cannot be empty!")
                     continue
-                Add(name)
-                print(f"{name} successfully added!")
+                elif (name.isalnum()):
+                    Add(name)
+                    print(f"{name} successfully added!")
+                else:
+                    print("Error. Name must be only alphanumeric characters.")
 
             case '2':
                 searchBy = input("Search by: [1] ID or [2] Name: ")
