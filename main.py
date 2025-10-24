@@ -109,7 +109,7 @@ def Delete(id):
     if found:
         print(f"Record with ID {id} deleted successfully.")
     else:
-        print(f"Record with ID {id} not found.")
+        print(f"Error: Record with ID {id} not found.")
 
 def main():
     if not os.path.exists(file_name):
@@ -162,7 +162,13 @@ def main():
 
             case '4':
                 delete_id = input("Enter ID: ")
-                Delete(delete_id)
+                if (delete_id == " "):
+                    print("Error: Input cannot be empty")
+                    continue
+                elif (delete_id.isalpha()):
+                    print("Error: Invalid Input")
+                else:
+                    Delete(delete_id)
 
             case '5':
                 print("Goodbye!")
