@@ -37,7 +37,6 @@ def Add(name):
             records.append(i.strip())
 
     latest_id = 0
-    print(records)
 
     for i in range(len(records)):
         latest_id += 1
@@ -85,7 +84,6 @@ def Update():
         print("Record Update Sucessfully")
     else:
         print("Record does not exit")
-
 
 def Delete(id):
     records = []
@@ -136,8 +134,11 @@ def main():
                 if (name == ''):
                     print("Error. Name cannot be empty.")
                     continue
-                Add(name)
-                print(f"{name} successfully added!")
+                elif (name.isalnum()):
+                    Add(name)
+                    print(f"{name} successfully added!")
+                else:
+                    print("Error. Name must be only alphanumeric characters.")
 
             case '2':
                 searchBy = input("Search by: [1] ID or [2] Name: ")
