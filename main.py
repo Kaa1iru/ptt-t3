@@ -61,6 +61,7 @@ def Update():
         return
 
     found = False
+    no_change = False
     with open(file_name, "r") as file:
         records = file.read().strip().split("\n")
 
@@ -73,16 +74,21 @@ def Update():
 
             if new_name == "":
                 new_name = records[i+1]
-
-            records[i+1] = new_name
-            found = True
+                no_change = True
+            else:
+                records[i+1] = new_name
+                
+            found = True    
             break
 
     if found:
-        with open(file_name, "w") as file:
-            for line in records:
-                file.write(line + "\n")
-        print("Record updated sucessfully!")
+        if not no_change:
+            with open(file_name, "w") as file:
+                for line in records:
+                    file.write(line + "\n")
+            print("Name updated sucessfully!")
+        else:
+            print("Current Name Kept!")
     else:
         print("Error: Record does not exist.")
 
