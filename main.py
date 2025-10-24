@@ -28,7 +28,7 @@ def Search(file, search_by, search_key):
                     found = True
 
     if not found:
-        print("Record does not exist.")
+        print("Error: Record does not exist.")
 
 def Add(name):
     records = []
@@ -84,7 +84,7 @@ def Update():
                 file.write(line + "\n")
         print("Record updated sucessfully!")
     else:
-        print("Record does not exist.")
+        print("Error: Record does not exist.")
 
 def Delete(id):
     records = []
@@ -111,7 +111,7 @@ def Delete(id):
     if found:
         print(f"ID {id} deleted successfully!")
     else:
-        print(f"Error: Record with ID {id} not found.")
+        print(f"Error: ID {id} not found.")
 
 def main():
     if not os.path.exists(file_name):
@@ -132,10 +132,10 @@ def main():
         match choice:
             case '1':
                 name = input("Enter Name: ")
-                if (name == ''):
+                if (name == '' or name.isspace()):
                     print("Error: Name cannot be empty!")
                     continue
-                elif (name.isalpha()):
+                elif (all(char.isalpha() or char.isspace() for char in name)):
                     Add(name)
                     print(f"{name} successfully added!")
                 else:
@@ -168,10 +168,10 @@ def main():
             case '4':
                 delete_id = input("Enter ID: ")
                 if (delete_id == " "):
-                    print("Error: Input cannot be empty")
+                    print("Error: Input cannot be empty!")
                     continue
                 elif (delete_id.isalpha()):
-                    print("Error: Invalid Input")
+                    print(invalid)
                 else:
                     Delete(delete_id)
 
