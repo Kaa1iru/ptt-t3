@@ -70,15 +70,17 @@ def Update():
 
     for record in records:
         data = record.strip().split("\n")
-        if int(data[0]) == updateID:
-            print(f"Current Name: {data[1]}")
-            new_name = input("Enter New Name: ").strip()
-            if new_name == '':
-                new_name = data[1].strip()
-            updated_records.append(f"{data[0]}\n{new_name}")
-            found = True
-        else:
-            updated_records.append(record.strip())
+        print (data)
+        for i in range(len(data)):
+            if data[i] == f"{int(updateID):04d}":
+                print(f"Current Name: {data[i+1]}")
+                new_name = input("Enter New Name: ").strip()
+                if new_name == '':
+                    new_name = data[i+1].strip()
+                updated_records.append(f"{data[i+1]}\n{new_name}")
+                found = True
+            else:
+                updated_records.append(record.strip())
 
     if found:
         with open(file_name, "w") as file:
