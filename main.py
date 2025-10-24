@@ -1,6 +1,7 @@
 import os
 
 file_name = "database.txt"
+counter_file = "counter.txt"
 separator = "=========================="
 
 def Search(fileName, searchBy, searchKey):
@@ -30,17 +31,16 @@ def Search(fileName, searchBy, searchKey):
 
 def Add(name):
     records = []
-    with open(file_name, "r") as file:
+    with open(counter_file, "r") as file:
         lines = file.readlines()
         for i in lines:
             records.append(i.strip())
 
     latest_id = 0
+    print(records)
 
-    for i in range(len(records) - 2):
-        if records[i] == separator:
-            if int(records[i + 1]) > latest_id:
-                latest_id = int(records[i + 1])
+    for i in range(len(records)):
+        latest_id += 1
 
     latest_id += 1
 
@@ -48,6 +48,9 @@ def Add(name):
         file.write(separator + "\n")
         file.write(f"{latest_id:04d}\n")
         file.write(name + "\n")
+
+    with open(counter_file, "a") as file:
+        file.write(f"{latest_id}\n")
 
 def Update():
     print(separator)
@@ -79,7 +82,7 @@ def Update():
         with open(file_name, "w") as file:
             for line in records:
                 file.write(line + "\n")
-        print("Recored Update Sucessfully")
+        print("Record Update Sucessfully")
     else:
         print("Record does not exit")
 
@@ -114,6 +117,8 @@ def Delete(id):
 def main():
     if not os.path.exists(file_name):
         open(file_name, "w").close()
+    if not os.path.exists(counter_file):
+        open(counter_file, "w").close()
 
     while True:
         print("+------------------------+")
