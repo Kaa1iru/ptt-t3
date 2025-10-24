@@ -134,7 +134,7 @@ def main():
                 if (name == ''):
                     print("Error. Name cannot be empty.")
                     continue
-                elif (name.isalnum()):
+                elif (name.isalpha()):
                     Add(name)
                     print(f"{name} successfully added!")
                 else:
@@ -150,7 +150,6 @@ def main():
                             break
                         except: print("Invalid input, try again...")
                     Search(file_name, searchBy, searchID)
-
                 # Name
                 elif searchBy == '2':
                     searchName = input("Enter name: ")
@@ -158,13 +157,11 @@ def main():
                         print("Name should not be empty...")
                     else:
                         Search(file_name, searchBy, searchName)
-
                 else:
                     print("Invalid input, try again...")
 
             case '3':
                 Update()
-                pass
 
             case '4':
                 delete_id = input("Enter ID: ")
@@ -176,5 +173,5 @@ def main():
 
             case _:
                 print("Invalid input, try again...")
-
+                
 main()
