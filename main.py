@@ -3,27 +3,28 @@ import os
 file_name = "database.txt"
 counter_file = "counter.txt"
 separator = "=========================="
+invalid = "Error: Invalid Input!"
 
-def Search(fileName, searchBy, searchKey):
+def Search(file, search_by, search_key):
     found = False
     with open(file_name, "r") as file:
         database = file.read().strip()
-        records = database.split("\n")
+        record = database.split("\n")
         # ID
-        if searchBy == '1':
-            for i in range(len(records)):
-                if records[i] == f"{int(searchKey):04d}":
+        if search_by == '1':
+            for i in range(len(record)):
+                if record[i] == f"{int(search_key):04d}":
                     print(separator)
-                    print(f"ID: {records[i]}")
-                    print(f"Name: {records[i+1]}")
+                    print(f"ID: {record[i]}")
+                    print(f"Name: {record[i+1]}")
                     found = True
         # Name
-        elif searchBy == '2':
-            for i in range(len(records)):
-                if records[i].lower() == searchKey.lower():
+        elif search_by == '2':
+            for i in range(len(record)):
+                if search_key.lower() in record[i].lower():
                     print(separator)
-                    print(f"ID: {records[i-1]}")
-                    print(f"Name: {records[i]}")
+                    print(f"ID: {record[i-1]}")
+                    print(f"Name: {record[i]}")
                     found = True
 
     if not found:
@@ -37,7 +38,6 @@ def Add(name):
             records.append(i.strip())
 
     latest_id = 0
-    print(records)
 
     for i in range(len(records)):
         latest_id += 1
@@ -54,10 +54,10 @@ def Add(name):
 
 def Update():
     print(separator)
-    updateID =  input("Enter ID of record to update: ").strip()
+    update_id =  input("Enter ID to be updated: ").strip()
 
-    if not updateID.isdigit():
-        print("Invalid Input!")
+    if not update_id.isdigit():
+        print(invalid)
         return
 
     found = False
@@ -65,10 +65,10 @@ def Update():
         records = file.read().strip().split("\n")
 
     for i in range(len(records)):
-        if records[i] == updateID or records[i] == f"{int(updateID):04d}":
+        if records[i] == update_id or records[i] == f"{int(update_id):04d}":
             print(separator)
             print(f"Current Name: {records[i+1]}")
-            print("Leave Blank to Keep Current")
+            print("Leave Blank to Keep Current Name")
             new_name = input("Enter new name: ").strip()
 
             if new_name == "":
@@ -82,9 +82,9 @@ def Update():
         with open(file_name, "w") as file:
             for line in records:
                 file.write(line + "\n")
-        print("Record Update Sucessfully")
+        print("Record updated sucessfully!")
     else:
-        print("Record does not exit")
+        print("Record does not exist.")
 
 
 def Delete(id):
@@ -98,7 +98,7 @@ def Delete(id):
     found = False
     for i in range(len(records) - 2):
         if records[i] == separator:
-            if records[i + 1] != id:
+            if records[i + 1] != f"{int(id):04d}":
                 temp.append(separator)
                 temp.append(records[i + 1])
                 temp.append(records[i + 2])
@@ -110,9 +110,9 @@ def Delete(id):
             file.write(line + "\n")
 
     if found:
-        print(f"Record with ID {id} deleted successfully.")
+        print(f"ID {id} deleted successfully!")
     else:
-        print(f"Record with ID {id} not found.")
+        print(f"ID {id} not found.")
 
 def main():
     if not os.path.exists(file_name):
@@ -134,7 +134,7 @@ def main():
             case '1':
                 name = input("Enter Name: ")
                 if (name == ''):
-                    print("Error. Name cannot be empty.")
+                    print("Error: Name cannot be empty!")
                     continue
                 Add(name)
                 print(f"{name} successfully added!")
@@ -147,19 +147,19 @@ def main():
                         try:
                             searchID = int(input("Enter ID: "))
                             break
-                        except: print("Invalid input, try again...")
+                        except: print(invalid)
                     Search(file_name, searchBy, searchID)
 
                 # Name
                 elif searchBy == '2':
                     searchName = input("Enter name: ")
                     if searchName.strip() == '':
-                        print("Name should not be empty...")
+                        print("Error: Name cannot be empty!")
                     else:
                         Search(file_name, searchBy, searchName)
 
                 else:
-                    print("Invalid input, try again...")
+                    print(invalid)
 
             case '3':
                 Update()
@@ -174,6 +174,6 @@ def main():
                 break
 
             case _:
-                print("Invalid input, try again...")
+                print(invalid)
 
 main()
