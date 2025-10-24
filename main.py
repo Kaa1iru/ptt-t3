@@ -7,23 +7,22 @@ def Search(fileName, searchBy, searchKey):
     found = False
     with open(file_name, "r") as file:
         database = file.read().strip()
-        records = database.split("\n\n")
-
-        for line in records:
-            data = line.strip().split("\n")
-             # ID
-            if searchBy == '1':
-                if int(data[0]) == searchKey:
+        records = database.split("\n")
+        # ID
+        if searchBy == '1':
+            for i in range(len(records)):
+                if records[i] == f"{int(searchKey):04d}":
                     print(separator)
-                    print(f"ID: {data[0]}")
-                    print(f"Name: {data[1]}")
+                    print(f"ID: {records[i]}")
+                    print(f"Name: {records[i+1]}")
                     found = True
-             # Name
-            elif searchBy == '2':
-                if searchKey.lower() in data[1].lower():
+        # Name
+        elif searchBy == '2':
+            for i in range(len(records)):
+                if records[i].lower() == searchKey.lower():
                     print(separator)
-                    print(f"ID: {data[0]}")
-                    print(f"Name: {data[1]}")
+                    print(f"ID: {records[i-1]}")
+                    print(f"Name: {records[i]}")
                     found = True
 
     if not found:
@@ -49,41 +48,37 @@ def Add(name):
         file.write(separator + "\n")
         file.write(f"{latest_id:04d}\n")
         file.write(name + "\n")
-        
 
 def Update():
     print(separator)
-    try:
-        updateID =  int(input("Enter ID of record to update: "))
-    except:
+    updateID =  input("Enter ID of record to update: ").strip()
+
+    if not updateID.isdigit():
         print("Invalid Input!")
         return
 
-    with open(file_name, "r") as file:
-        database = file.read().strip()
-        if not database:
-            print("No Records Found")
-            return
-        records = database.split("\n\n")
-
     found = False
-    updated_records = []
+    with open(file_name, "r") as file:
+        records = file.read().strip().split("\n")
 
-    for record in records:
-        data = record.strip().split("\n")
-        if int(data[0]) == updateID:
-            print(f"Current Name: {data[1]}")
-            new_name = input("Enter New Name: ").strip()
-            if new_name == '':
-                new_name = data[1].strip()
-            updated_records.append(f"{data[0]}\n{new_name}")
+    for i in range(len(records)):
+        if records[i] == updateID or records[i] == f"{int(updateID):04d}":
+            print(separator)
+            print(f"Current Name: {records[i+1]}")
+            print("Leave Blank to Keep Current")
+            new_name = input("Enter new name: ").strip()
+
+            if new_name == "":
+                new_name = records[i+1]
+
+            records[i+1] = new_name
             found = True
-        else:
-            updated_records.append(record.strip())
+            break
 
     if found:
         with open(file_name, "w") as file:
-            file.write("\n\n".join(updated_records))
+            for line in records:
+                file.write(line + "\n")
         print("Recored Update Sucessfully")
     else:
         print("Record does not exit")
@@ -168,13 +163,12 @@ def main():
             case '4':
                 delete_id = input("Enter ID: ")
                 Delete(delete_id)
-            
+
             case '5':
                 print("Goodbye!")
                 break
 
             case _:
                 print("Invalid input, try again...")
-
 
 main()
