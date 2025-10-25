@@ -74,7 +74,8 @@ def Update():
 
             if new_name == "":
                 new_name = records[i+1]
-                found, no_change = True
+                found = True
+                no_change = True
             elif (all(char.isalpha() or char.isspace() for char in new_name)):
                 records[i+1] = new_name
                 found = True
