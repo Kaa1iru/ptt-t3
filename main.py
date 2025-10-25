@@ -74,12 +74,13 @@ def Update():
 
             if new_name == "":
                 new_name = records[i+1]
-                no_change = True
-            else:
+                found, no_change = True
+            elif (all(char.isalpha() or char.isspace() for char in new_name)):
                 records[i+1] = new_name
-                
-            found = True    
-            break
+                found = True
+            else:
+                print("Error: Name must be only alphanumeric characters.")
+                return
 
     if found:
         if not no_change:
