@@ -175,7 +175,7 @@ def main():
 
             case '4':
                 delete_id = input("Enter ID: ")
-                if (delete_id == " "):
+                if (delete_id.strip() == ''):
                     print("Error: Input cannot be empty!")
                     continue
                 elif (delete_id.isalpha()):
